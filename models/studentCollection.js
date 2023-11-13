@@ -28,6 +28,12 @@ const studentsSchema=new mongoose.Schema({
         maxlength:13
 
     },
+    dob:{
+        type:Number,
+        trim:true,
+        required:true
+
+    },
     class:{
         type:String,
         trim:true,

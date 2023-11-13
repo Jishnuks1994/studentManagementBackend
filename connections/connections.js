@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 
 mongoose.connect(process.env.BASE_URL,{
-    useunifiedTopology:true,
+    useUnifiedTopology:true,
     useNewUrlParser:true
 }).then(()=>{
     console.log("____mongoDb Atlas Connected____");
