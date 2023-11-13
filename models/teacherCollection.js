@@ -46,12 +46,12 @@ const teachersSchema=new mongoose.Schema({
         required:true
 
     },
-    image:{
-        type:String,
-        trim:true,
-        required:true
+    // image:{
+    //     type:String,
+    //     trim:true,
+    //     required:true
 
-    },
+    // },
     attendance:{
         type:Array,
         trim:true,

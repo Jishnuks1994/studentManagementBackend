@@ -1,5 +1,5 @@
 const express=require('express')
-const { adminLogin, teacherAdd } = require('../controllers/adminLogic')
+const { adminLogin, teacherAdd, getTeachers } = require('../controllers/adminLogic')
 const upload = require('../middleware/multerMiddleware')
 
 
@@ -9,8 +9,10 @@ const router =new express.Router()
 router.post('/admin/login',adminLogin)
 
 //add teacher
-// router.post('/admin/add-teacher',upload.single('image'),teacherAdd)
+router.post('/admin/add-teacher',upload.single('image'),teacherAdd)
 
+//get all teachers
+router.get('/admin/get-all-teachers',getTeachers)
 
 
 module.exports=router

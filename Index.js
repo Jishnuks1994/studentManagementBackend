@@ -16,6 +16,10 @@ server.use(router)
 
 require('./connections/connections')
 
+//export upload folder
+server.use('/uploads',express.static('./uploads'))
+//          path name    method         sending folder
+
 
 const port=4000 || process.env.port
 server.listen(port,()=>{
