@@ -25,6 +25,7 @@ const adminLogin = async (req, res) => {
 
 }
 
+//add teacher
 const teacherAdd = async (req, res) => {
   if (!req.file) {
     return res.status(400).json("Image file is required");
@@ -33,7 +34,6 @@ const teacherAdd = async (req, res) => {
   const image = req.file.filename;
   const { name, email, password, mobile, gender, subject, salary } = req.body;
 
-  // return res.status(200).json()
 
   if (!name || !email || !password || !mobile || !gender || !subject || !salary || !image) {
     return res.status(400).json("All inputs are required");
@@ -65,20 +65,85 @@ const teacherAdd = async (req, res) => {
   }
 };
 
-
+//get all teachers
 const getTeachers=async (req,res)=>{
-  // try {
+  try {
     const result = await teachers.find()
     res.status(200).json(result)
 
-  // }
-  // catch {
-  //   res.status(400).json("network error")
-  // }
+  }
+  catch {
+    res.status(400).json("network error")
+  }
 } 
+
+//edit teacher
+const showTeacher = async (req, res) => {
+  const {id} = req.params
+
+  try {
+    const result = await teachers.findOne({ _id:id });
+    
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json("Teacher Not Found");
+    }
+  } catch{
+    
+    res.status(500).json("network error");
+  }
+};
+
+//edit teacher
+const editTeacher = async (req, res) => {
+  // if (!req.file) {
+  //   return res.status(400).json("Image file is required");
+  // }
+
+  // const image = req.file.filename;
+  const { name, email, password, mobile, gender, subject, salary,image,_id } = req.body;
+
+  // const{name,email}=req.body
+
+
+  // if (!name || !email || !password || !mobile || !gender || !subject || !salary || !image) {
+  //   return res.status(400).json("All inputs are required");
+  // }
+
+  try {
+    let preTeacher = await teachers.findOne({ _id });
+
+    if (preTeacher) {
+      preTeacher.name=name
+      preTeacher.email=email
+      preTeacher.password=password
+      preTeacher.mobile=mobile
+      preTeacher.gender=gender
+      preTeacher.subject=subject
+      preTeacher.salary=salary
+      preTeacher.image=image
+
+      await preTeacher.save()
+      return res.status(200).json("edited")
+      
+    }
+    else{
+      return res.status(400).json("Teacher is not present in Database");
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Internal server error");
+  }
+};
+
+
 
 module.exports = {
   adminLogin,
   teacherAdd,
-  getTeachers
+  getTeachers,
+  showTeacher,
+  editTeacher
 }
