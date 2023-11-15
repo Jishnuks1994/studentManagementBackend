@@ -7,34 +7,39 @@ const studentsSchema=new mongoose.Schema({
         required:true
 
     },
-    email:{
+    
+    dob:{
         type:String,
-        unique:true,
         trim:true,
         required:true
 
     },
-    password:{
+    gender:{
         type:String,
-        required:true,
-        trim:true
+        trim:true,
+        required:true
+
+    },
+    blood_type:{
+        type:String,
+        trim:true,
+        required:true
+
     },
     reg_no:{
         type:String,
         trim:true,
         unique:true,
         required:true,
-        minlength:10,
-        maxlength:13
 
     },
-    dob:{
-        type:Number,
+    class_name:{
+        type:String,
         trim:true,
         required:true
 
     },
-    class:{
+    guardian_name:{
         type:String,
         trim:true,
         required:true
@@ -49,23 +54,17 @@ const studentsSchema=new mongoose.Schema({
         maxlength:13
 
     },
-    gender:{
+    email:{
         type:String,
+        unique:true,
         trim:true,
         required:true
 
     },
-    guardian_name:{
+    password:{
         type:String,
-        trim:true,
-        required:true
-
-    },
-    blood_type:{
-        type:String,
-        trim:true,
-        required:true
-
+        required:true,
+        trim:true
     },
     address:{
         type:String,
@@ -82,14 +81,10 @@ const studentsSchema=new mongoose.Schema({
     attendance:{
         type:Array,
         trim:true,
-        required:true
-
     },
     progress_card:{
         type:Array,
-        trim:true,
-        required:true
-
+        trim:true
     },
 })
 
