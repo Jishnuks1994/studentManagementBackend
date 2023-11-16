@@ -243,25 +243,37 @@ const addClass = async (req, res) => {
   }
 }
 
-const editClass = async (req, res) => {
-  const { teacher,_id} = req.body
-  try{
-    const result=await classes.findOne({_id})
-    if(result){
-      result.teacher=teacher
+//get all class
+const getClasses = async (req, res) => {
+  try {
+    const result = await classes.find()
+    res.status(200).json(result)
 
-      await result.save()
-      return res.status(200).json("edited")
-    }
-    else{
-      return res.status(400).json("There is no class present in Database");
-    }
   }
-  catch{
+  catch {
     res.status(400).json("network error")
   }
 }
 
+//edit class
+const editClass = async (req, res) => {
+  const { teacher,id } = req.body
+  
+  try {
+    const result = await classes.findOne({ _id: id });
+    if (result) {
+      result.teacher = teacher;
+
+      await result.save();
+      return res.status(200).json("edited");
+    } else {
+      return res.status(400).json("There is no class present in Database");
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json("Network error or database query issue occurred");
+  }
+};
 
 module.exports = {
   adminLogin,
@@ -273,5 +285,6 @@ module.exports = {
   getStudents,
   teacherLogin,
   addClass,
-  editClass
+  editClass,
+  getClasses
 }

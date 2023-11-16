@@ -1,5 +1,5 @@
 const express=require('express')
-const { adminLogin, teacherAdd, getTeachers, showTeacher, editTeacher, studentAdd, getStudents, teacherLogin, addClass, editClass } = require('../controllers/adminLogic')
+const { adminLogin, teacherAdd, getTeachers, showTeacher, editTeacher, studentAdd, getStudents, teacherLogin, addClass, editClass, getClasses } = require('../controllers/adminLogic')
 const upload = require('../middleware/multerMiddleware')
 
 
@@ -34,4 +34,6 @@ router.post('/admin/add-class',addClass)
 //edit class
 router.put('/admin/edit-class',editClass)
 
+//get all classes
+router.get('/admin/get-all-classes',getClasses)
 module.exports=router
