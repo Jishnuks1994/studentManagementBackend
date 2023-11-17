@@ -57,7 +57,7 @@ const teachersSchema=new mongoose.Schema({
         trim:true,
         required:true
 
-    },
+    }
 })
 
 const teachers=new mongoose.model('teachers',teachersSchema)

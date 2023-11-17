@@ -2,7 +2,6 @@ const express=require('express')
 const { adminLogin, teacherAdd, getTeachers, showTeacher, editTeacher, studentAdd, getStudents, teacherLogin, addClass, editClass, getClasses } = require('../controllers/adminLogic')
 const upload = require('../middleware/multerMiddleware')
 
-
 const router =new express.Router()
 
 //admin login
