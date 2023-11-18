@@ -2,6 +2,8 @@ const admins = require("../models/adminCollection");
 const teachers = require("../models/teacherCollection");
 const students = require("../models/studentCollection");
 const classes = require("../models/classCollections");
+const teacherAttendances = require("../models/teacherAttendance");
+const studentsAttendances = require("../models/studentsAttendence");
 
 //admin login
 const adminLogin = async (req, res) => {
@@ -286,12 +288,60 @@ const editClass = async (req, res) => {
   }
 };
 
-const teacherAttendanceApi = async (req, res) => {
-  const { date1, _id, status } = req.body;
+//delete class
+const deleteClass = async (req, res) => {
+  const { id } = req.params;
   try {
-    const result = await teachers.findOne({ _id });
+    const deletedClass = await classes.findOneAndDelete({ _id: id });
+    if (!deletedClass) {
+      return res.status(404).json({ message: "Class not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Class deleted successfully", deletedClass });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
+  }
+};
+
+//teacher attendance
+const teacherAttendance = async (req, res) => {
+  const { date, teachers } = req.body;
+  try {
+    const result = await teacherAttendances.findOne({ date });
     if (result) {
-      result.attendance = {date1:status}
+      return res.status(400).json("Attendance Already Added");
+    } else {
+      let attendance = new teacherAttendances({
+        date,
+        teachers,
+      });
+      await attendance.save();
+      return res.status(200).json("Attendance Added");
+    }
+  } catch {
+    res.status(400).json("network error");
+  }
+};
+
+//students attendence
+const studentsAttendance = async (req, res) => {
+  const { date } = req.body;
+  const students = request.body.attendanceRecords;
+  try {
+    const result = await studentsAttendances.findOne({ date });
+    if (result) {
+      return res.status(400).json("Attendance Already Added");
+    } else {
+      let attendance = new studentsAttendances({
+        date,
+        students,
+      });
+      await attendance.save();
+      return res.status(200).json("Attendance Added");
     }
   } catch {
     res.status(400).json("network error");
@@ -309,6 +359,8 @@ module.exports = {
   teacherLogin,
   addClass,
   editClass,
+  deleteClass,
   getClasses,
-  teacherAttendanceApi,
+  teacherAttendance,
+  studentsAttendance,
 };
