@@ -309,7 +309,7 @@ const deleteClass = async (req, res) => {
 
 //teacher attendance
 const teacherAttendance = async (req, res) => {
-  const { date, teachers } = req.body;
+  const { date, attendanceRecords } = req.body;
   try {
     const result = await teacherAttendances.findOne({ date });
     if (result) {
@@ -317,13 +317,14 @@ const teacherAttendance = async (req, res) => {
     } else {
       let attendance = new teacherAttendances({
         date,
-        teachers,
+        attendanceRecords
       });
       await attendance.save();
       return res.status(200).json("Attendance Added");
     }
-  } catch {
-    res.status(400).json("network error");
+  } catch (error) {
+    console.error("Error processing attendance:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -348,6 +349,24 @@ const studentsAttendance = async (req, res) => {
   }
 };
 
+//get teacher attendance details
+const getAllTeacherAttendance = async (req, res) => {
+  const{date}=req.body
+  try {
+    const allAttendance = await teacherAttendances.findOne({date});
+    if(allAttendance){
+      res.status(200).json(allAttendance);
+    }
+    else{
+      const allAttendance=[]
+      res.status(200).json(allAttendance);
+    }
+  } catch (error) {
+    console.error('Error fetching teacher attendance:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}; 
+
 module.exports = {
   adminLogin,
   teacherAdd,
@@ -363,4 +382,5 @@ module.exports = {
   getClasses,
   teacherAttendance,
   studentsAttendance,
+  getAllTeacherAttendance
 };
